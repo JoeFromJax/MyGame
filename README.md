@@ -13,4 +13,4 @@ Magic
 Defense
 Speed
 Health
-Mana
+Mana# MyGame
