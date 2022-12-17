@@ -1,4 +1,4 @@
-const spell = require("../spells/allSpells")
+const spell = require("../spells/fireball")
 
 class Character {
     constructor(name, className, attack, magic, health, mana) {
