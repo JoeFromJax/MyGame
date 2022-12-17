@@ -6,7 +6,7 @@ const config = require("../config/classNames")
 
 class Mage extends Character {
   constructor(name) {
-    super(name, config.classNames.MageClassName, 10, 120, 100, 10);
+    super(name, config.classNames.MageClassName, 10, 120, 100);
     this.spells.push(fireball);
     const pet1 = new Pet("Buddy the Dog", 5);
     this.pets.push(pet1);
