@@ -7,4 +7,4 @@ class Spell {
     }
   }
 
-module.exports = Spell;
+ module.exports = Spell;

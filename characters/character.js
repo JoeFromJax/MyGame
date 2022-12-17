@@ -1,14 +1,12 @@
 class Character {
-    constructor(name, className, attack, magic, defense, speed, health, mana) {
+    constructor(name, className, attack, magic, health, mana) {
         this.name = name;
         this.className = className;
         this.level = 1;
         this.attack = attack;
-        this.magic = magic;
-        this.defense = defense;
-        this.speed = speed;
         this.health = health;
         this.mana = mana;
+        this.magic = magic;
         this.spells = [];
         this.weapons = [];
         this.pets = [];
@@ -25,38 +23,35 @@ class Character {
         } else if(this.className === "Warrior") {
             console.log("levelling up", this.className);
             this.health = this.health + 20;
-            this.defense = this.defense + 2;
             this.attack = this.attack + 5;
         } else if (this.className === "Ranger") {
             console.log("levelling up", this.className);
             this.health = this.health + 15;
             this.mana = this.mana + 10;
-            this.speed = this.speed + 3;
             this.attack = this.attack + 5;
         }
     }
     
-    getDamage(spell){
-        if(this.activePet){
+    getDamage(spellName) {
+        // i need a way to keep track of a user's active pet. if they have one, we get the pets damage, and add it
+        // to the characters magic damage.
+        if(spellName) {
+            const spell = this.spells.find(s => s.name === spellName);
+            if(!spell) return 0;
+            if(this.mana < spell.mana) {
+                console.log("not enough mana");
+                return 0;
+            }
+
+            this.mana -= spell.mana;
+            return spell.power + this.magic;
+        } else if(this.activePet) {
             const petDamage = this.activePet.damage;
-            const magicDamage = this.magic;
-            console.log("Pet Damage:");
-            return petDamage + magicDamage;
-        }
-        else if(spell){
-            const spellDamage = spell.damage;
-            return spellDamage;
-            
-        }
-        else if(this.activeWeapon){
-            const attackDamage = this.attack;
-            console.log("Weapon + Attack Damage:");
-            return this.attack + this.activeWeapon.damage;
-        }
-        else{
-            const attackDamage = this.attack;
-            console.log("Attack Damage:");
-            return attackDamage;
+            return petDamage + this.magic;
+        } else if(this.equippedWeapon) {
+            const weaponDamage = this.equippedWeapon.damage;
+            return this.attack + weaponDamage;
+            return 0; // Return 0 as the default value
         }
     }
 
@@ -72,27 +67,7 @@ class Character {
         }
     }
 
-    castSpell(spellName){
-        for(let i = 0; i < this.spells.length; i++){
-            const spell = this.spells[i];
-            if(spell.name === spellName){
-                console.log("Casting",spell.name);
-                const manaCost = spell.manaCost;
-                if(this.mana >= manaCost){
-                this.mana = this.mana - manaCost;
-                console.log("Spell Damage:");
-                return this.getDamage(spell);
-                }
-                else{
-                    console.log("Not Enough Mana NOOB");
-                    console.log("Spell Damage:");
-                    return 0;
-                }
-                
-            }
-        }
-    }
-        // add weapon adds a weapon to the user's array of weapons.
+            // add weapon adds a weapon to the user's array of weapons.
         addWeapon(weapon) {
             this.weapons.push(weapon);
         }

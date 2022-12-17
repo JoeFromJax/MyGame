@@ -1,4 +1,4 @@
-const Weapon = require("./weapons");
+const Weapon = require("../weapons/weapons");
 
 const crossbow = new Weapon("Crossbow", 20);
 

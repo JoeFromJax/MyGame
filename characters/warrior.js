@@ -1,9 +1,10 @@
 const Character = require("../characters/character");
 const longsword = require("../weapons/longsword");
+const config = require("../config/classNames");
 
 class Warrior extends Character {
   constructor(name) {
-    super(name, "Warrior", 3, 15, 5, 20, 12, 150, 0);
+    super(name, config.classNames.WarriorClassName, 15, 150, 0, 0);
     this.weapons.push(longsword);
   }
 }
