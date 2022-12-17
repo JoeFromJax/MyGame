@@ -1,16 +1,11 @@
-Game
-
 In our game, you can choose a class, level up, cast spells, and attack mobs until you die.
 
-# Day 1 of game
+Game for the NGMI Pandas Coding Class
 
-I want to be able to level up a character, and increase its stats.
+I want to be able to have a running game that is turn based and prompts you to choose your character and attacks.
 
 The stats of each character :
 Level
 Attack
-Magic
-Defense
-Speed
 Health
 Mana
