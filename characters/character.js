@@ -11,7 +11,7 @@ class Character {
       this.spells = [];
       this.weapons = [];
       this.pets = [];
-      this.activePet = [];
+      this.activePet = [null];
     }
   
     castSpell(pickSpell) {
@@ -45,18 +45,19 @@ class Character {
       }
     }
   
-    getDamage(spellName) {
-      if (spellName) {
-        return this.castSpell(spellName);
-      } else if (this.activePet) {
-        const petDamage = this.activePet.damage;
-        return petDamage + this.magic;
-      } else if (this.equippedWeapon) {
-        const weaponDamage = this.equippedWeapon.damage;
-        return this.attack + weaponDamage;
+    getDamage(type, spellName) {
+      let damage = 0;
+      if (type === "normal") {
+        // calculate normal attack damage
+        damage = this.attack;
+      } else if (type === "spell" && spellName) {
+        // calculate spell damage
+        damage = this.castSpell(spellName);
+      } else if (type === "pet") {
+        // calculate pet damage
+        damage = this.activePet.damage;
       }
-  
-      return 0; // Return 0 as the default value
+      return damage;
     }
   
     summonPet(petName) {

@@ -2,7 +2,7 @@ class Spell {
     constructor(name, power, mana) {
       this.name = name;
       this.level = 1;
-      this.damage = damage;
+      this.power = power;
       this.mana = mana;
     }
   }

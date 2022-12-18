@@ -4,7 +4,7 @@ const config = require("../config/classNames");
 
 class Warrior extends Character {
   constructor(name) {
-    super(name, config.classNames.WarriorClassName, 15, 150, 0, 0);
+    super(name, config.classNames.WarriorClassName, 15, 150, 0, mana);
     this.weapons.push(longsword);
   }
 }

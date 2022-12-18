@@ -9,6 +9,7 @@ const prompt = require("prompt-promise");
 
 const config = require("./config/classNames");
 const mobs = require("./mobs/mobs");
+const fireball = require("./spells/fireball");
 
 // gameLoop will start and run the game for us.
 // we want to prompt the user to choose their class, so we need to use a prompting library
@@ -45,24 +46,25 @@ async function gameLoop() {
                 
         if(move === "4"){
             console.log(character.spells);
-            pickSpell = await prompt("choose spell to cast: \n");
-            if(pickSpell === "back"){
+            const spellName = "fireball";
+            if(spellName === "back"){
               a = 0;
             } else {
-              // Call the getDamage method on the character object and pass it the pickSpell string
-                console.log("pickSpell:", pickSpell);
-                damage = character.getDamage(pickSpell);
-                console.log("damage:", damage);
-                if (isNaN(damage)) {
-                    console.error("Error: getDamage was not returned");
-                  }
+              console.log("pickSpell:", spellName);
+              damage = character.getDamage("spell", spellName);
+              console.log("damage:", damage);
+              if (isNaN(damage)) {
+                console.error("Error: getDamage was not returned");
+              }
               a = 1;
-            } 
-          } else if(move === "1") {
-            damage = character.getDamage();
+            }
+        }
+
+        else if(move === "1"){
+            damage = character.getDamage("normal") + character.getDamage("equippedWeapon");
             a = 1;
-          }
-                
+        }
+
         else if(move === "2") {
             console.log(character.weapons);
             pickWeapon = await prompt("Choose your weapon or \n type back to return to previous choices\n");
@@ -70,7 +72,7 @@ async function gameLoop() {
               a = 0;
             } else {
               character.equipWeapon(pickWeapon);
-              console.log("You equipped", character.activeWeapon.name, "and lost a turn");
+              console.log("You equipped", character.equippedWeapon.name, "and lost a turn");
               a = 1;
             }
           }
@@ -83,7 +85,8 @@ async function gameLoop() {
         }
         else{
         character.summonPet(pickPet);
-        console.log("You now have Summoned ", character.activePet, "and lost a turn");
+        damage = character.getDamage("pet") + character.getDamage("normal");
+        console.log("You now have Summoned ", character.activePet.name);
         a = 1; 
         }
     }
@@ -92,12 +95,10 @@ async function gameLoop() {
             console.log("You can only choose 1, 2, 3, or 4");
             console.log("you lost your turn");
         }
-        
-        if (isNaN(damage)) {
+            if (isNaN(damage)) {
             console.error("Error: getDamage was not returned")
         } else {
-          mob.health = mob.health - damage;
-          const mobDamage = mob.damage;
+          mob.health = mob.health - damage;      
           character.health = character.health - mob.damage;
           console.log(character.name, " did", damage);
           console.log(mob.name, "did", mob.damage);
